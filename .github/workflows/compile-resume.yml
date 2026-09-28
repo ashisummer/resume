@@ -1,0 +1,27 @@
+name: Compile LaTeX Resume
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Git repository
+        uses: actions/checkout@v4
+
+      - name: Compile LaTeX document
+        uses: xu-cheng/latex-action@v3
+        with:
+          root_file: main.tex # tex filename
+
+      - name: Rename PDF Output
+        run: mv main.pdf "dikshant resume.pdf" 
+
+      - name: Upload PDF Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dikshant-resume-pdf
+          path: "dikshant resume.pdf"
