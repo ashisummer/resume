@@ -5,6 +5,10 @@ on:
     branches:
       - main
 
+# Gives the workflow permission to write changes back to your repository
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -16,13 +20,15 @@ jobs:
         uses: xu-cheng/latex-action@v3
         with:
           root_file: main.tex
-          compiler: xelatex # Explicitly forces XeLaTeX engine to process custom fonts
+          compiler: xelatex
 
       - name: Rename PDF Output
         run: mv main.pdf "dikshant resume.pdf"
 
-      - name: Upload PDF Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: dikshant-resume-pdf
-          path: "dikshant resume.pdf"
+      - name: Commit and Push PDF directly to Repo
+        run: |
+          git config --local user.email "github-actions[bot]@://github.com"
+          git config --local user.name "github-actions[bot]"
+          git add "dikshant resume.pdf"
+          git commit -m "Automated update: dikshant resume.pdf [skip ci]" || echo "No changes to commit"
+          git push origin main
