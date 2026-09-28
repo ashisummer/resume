@@ -15,10 +15,11 @@ jobs:
       - name: Compile LaTeX document
         uses: xu-cheng/latex-action@v3
         with:
-          root_file: main.tex # tex filename
+          root_file: main.tex
+          compiler: xelatex # Explicitly forces XeLaTeX engine to process custom fonts
 
       - name: Rename PDF Output
-        run: mv main.pdf "dikshant resume.pdf" 
+        run: mv main.pdf "dikshant resume.pdf"
 
       - name: Upload PDF Artifact
         uses: actions/upload-artifact@v4
